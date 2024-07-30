@@ -1,5 +1,6 @@
 const { Client, GatewayIntentBits, EmbedBuilder } = require('discord.js');
 const { MongoClient } = require('mongodb');
+const keep_alive = require('./keep_alive.js')
 require('dotenv').config();
 
 const client = new Client({
