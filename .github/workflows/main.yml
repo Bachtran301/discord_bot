@@ -1,0 +1,32 @@
+name: Deploy to Server
+
+on:
+  push:
+    branches:
+      - main  # hoặc tên branch chính của bạn
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '22.2'  # Chọn phiên bản Node.js phù hợp với dự án của bạn
+
+    - name: Install dependencies
+      run: |
+        npm install  # Cài đặt các phụ thuộc từ file package.json
+
+    - name: Run tests
+      run: |
+        npm test  # Chạy các bài kiểm tra (nếu có)
+
+    - name: Deploy to server
+      env:
+        DEPLOY_HOOK_URL: ${{ secrets.DEPLOY_HOOK_URL }}
+      run: |
+        curl -X POST $DEPLOY_HOOK_URL
